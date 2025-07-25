@@ -8,28 +8,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class EstudanteTest {
 
-    private String identificadorInterno;
-    private String nome;
-    private String email;
-    private Integer idade;
+    private String identificadorInternoEstudante;
+    private String nomeEstudante;
+    private String emailEstudante;
+    private Integer idadeEstudante;
 
     @BeforeEach
     void setup () {
-        identificadorInterno = "abcd";
-        nome = "john";
-        email = "john@email.com";
-        idade = 30;
+        identificadorInternoEstudante = "abcd";
+        nomeEstudante = "john";
+        emailEstudante = "john@email.com";
+        idadeEstudante = 30;
     }
 
     @DisplayName("Cria estudante com sucesso")
     @Test
     void devePermitirCriarEstudante() {
-        identificadorInterno = null;
+        identificadorInternoEstudante = null;
         var estudante = criarEstudante();
 
-        assertEquals(nome, estudante.getNome());
-        assertEquals(email, estudante.getEmail());
-        assertEquals(idade, estudante.getIdade());
+        assertEquals(nomeEstudante, estudante.getNome());
+        assertEquals(emailEstudante, estudante.getEmail());
+        assertEquals(idadeEstudante, estudante.getIdade());
         assertNull(estudante.getIdentificadorInterno());
     }
 
@@ -38,56 +38,56 @@ public class EstudanteTest {
     void devePermitirCriarEstudanteComIdentificadorInterno() {
         var estudante = criarEstudante();
 
-        assertEquals(nome, estudante.getNome());
-        assertEquals(email, estudante.getEmail());
-        assertEquals(idade, estudante.getIdade());
-        assertEquals(identificadorInterno, estudante.getIdentificadorInterno());
+        assertEquals(nomeEstudante, estudante.getNome());
+        assertEquals(emailEstudante, estudante.getEmail());
+        assertEquals(idadeEstudante, estudante.getIdade());
+        assertEquals(identificadorInternoEstudante, estudante.getIdentificadorInterno());
     }
 
     @DisplayName("Proíbe a criação de estudante sem nome")
     @Test
     void deveProibirCriarEstudanteSemNome() {
-        nome = null;
+        nomeEstudante = null;
         assertThrows(IllegalArgumentException.class, this::criarEstudante);
     }
 
     @DisplayName("Proíbe a criação de estudante com nome vazio")
     @Test
     void deveProibirCriarEstudanteComNomeVazio() {
-        nome = "";
+        nomeEstudante = "";
         assertThrows(IllegalArgumentException.class, this::criarEstudante);
     }
 
     @DisplayName("Proíbe a criação de estudante sem e-mail")
     @Test
     void deveProibirCriarEstudanteSemEmail() {
-        email = null;
+        emailEstudante = null;
         assertThrows(IllegalArgumentException.class, this::criarEstudante);
     }
 
     @DisplayName("Proíbe a criação de estudante com e-mail inválido")
     @Test
     void deveProibirCriarEstudanteComEmailInvalido() {
-        email = "john@";
+        emailEstudante = "john@";
         assertThrows(IllegalArgumentException.class, this::criarEstudante);
     }
 
     @DisplayName("Proíbe a criação de estudante sem idade")
     @Test
     void deveProibirCriarEstudanteSemIdade() {
-        idade = null;
+        idadeEstudante = null;
         assertThrows(IllegalArgumentException.class, this::criarEstudante);
     }
 
     @DisplayName("Proíbe a criação de estudante com idade menor que 18")
     @Test
     void deveProibirCriarEstudanteComIdadeMenorQue18() {
-        idade = 10;
+        idadeEstudante = 10;
         assertThrows(IllegalArgumentException.class, this::criarEstudante);
     }
 
     private Estudante criarEstudante() {
-        return Estudante.create(identificadorInterno, nome, email, idade);
+        return Estudante.create(identificadorInternoEstudante, nomeEstudante, emailEstudante, idadeEstudante);
     }
 
 }

@@ -28,19 +28,19 @@ public class CadastrarEstudateUseCaseTest {
 
     private AutoCloseable mock;
 
-    private String identificadorInterno;
-    private String nome;
-    private String email;
-    private Integer idade;
+    private String identificadorInternoEstudante;
+    private String nomeEstudante;
+    private String emailEstudante;
+    private Integer idadeEstudante;
 
     @BeforeEach
     void setup () {
         mock = MockitoAnnotations.openMocks(this);
         cadastrarEstudanteUseCase = CadastrarEstudanteUseCase.create(estudanteGateway);
-        identificadorInterno = "abcd";
-        nome = "john";
-        email = "john@email.com";
-        idade = 30;
+        identificadorInternoEstudante = "abcd";
+        nomeEstudante = "john";
+        emailEstudante = "john@email.com";
+        idadeEstudante = 30;
     }
 
     @AfterEach
@@ -59,74 +59,10 @@ public class CadastrarEstudateUseCaseTest {
         var estudanteCriado = cadastrarEstudanteUseCase.run(novoEstudanteDTO);
 
         verify(estudanteGateway, times(1)).incluir(any(Estudante.class));
-        assertEquals(identificadorInterno, estudanteCriado.getIdentificadorInterno());
-        assertEquals(nome, estudanteCriado.getNome());
-        assertEquals(email, estudanteCriado.getEmail());
-        assertEquals(idade, estudanteCriado.getIdade());
-    }
-
-    @DisplayName("Proíbe cadastrar estudante sem nome")
-    @Test
-    void deveProibirCadastrarEstudanteSemNome () {
-        nome = null;
-        var novoEstudanteDTO = criarNovoEstudanteDTO();
-
-        assertThrows(IllegalArgumentException.class, () -> cadastrarEstudanteUseCase.run(novoEstudanteDTO));
-        verify(estudanteGateway, times(0)).incluir(any(Estudante.class));
-    }
-
-    @DisplayName("Proíbe cadastrar estudante com nome vazio")
-    @Test
-    void deveProibirCadastrarEstudanteComNomeVazio () {
-        nome = "";
-        var novoEstudanteDTO = criarNovoEstudanteDTO();
-        when(estudanteGateway.buscarPorNome(any(String.class))).thenReturn(null);
-
-        assertThrows(IllegalArgumentException.class, () -> cadastrarEstudanteUseCase.run(novoEstudanteDTO));
-        verify(estudanteGateway, times(0)).incluir(any(Estudante.class));
-    }
-
-    @DisplayName("Proíbe cadastrar estudante sem email")
-    @Test
-    void deveProibirCadastrarEstudanteSemEmail () {
-        email = null;
-        var novoEstudanteDTO = criarNovoEstudanteDTO();
-        when(estudanteGateway.buscarPorNome(any(String.class))).thenReturn(null);
-
-        assertThrows(IllegalArgumentException.class, () -> cadastrarEstudanteUseCase.run(novoEstudanteDTO));
-        verify(estudanteGateway, times(0)).incluir(any(Estudante.class));
-    }
-
-    @DisplayName("Proíbe cadastrar estudante com email invalido")
-    @Test
-    void deveProibirCadastrarEstudanteComEmailInvalido () {
-        email = "john@";
-        var novoEstudanteDTO = criarNovoEstudanteDTO();
-        when(estudanteGateway.buscarPorNome(any(String.class))).thenReturn(null);
-
-        assertThrows(IllegalArgumentException.class, () -> cadastrarEstudanteUseCase.run(novoEstudanteDTO));
-        verify(estudanteGateway, times(0)).incluir(any(Estudante.class));
-    }
-
-    @DisplayName("Proíbe cadastrar estudante sem idade")
-    @Test
-    void deveProibirCadastrarEstudanteSemIdade () {
-        idade = null;
-        var novoEstudanteDTO = criarNovoEstudanteDTO();
-
-        assertThrows(IllegalArgumentException.class, () -> cadastrarEstudanteUseCase.run(novoEstudanteDTO));
-        verify(estudanteGateway, times(0)).incluir(any(Estudante.class));
-    }
-
-    @DisplayName("Proíbe cadastrar estudante com idade menor que 18")
-    @Test
-    void deveProibirCadastrarEstudanteComIdadeMenorQue18 () {
-        idade = 10;
-        var novoEstudanteDTO = criarNovoEstudanteDTO();
-        when(estudanteGateway.buscarPorNome(any(String.class))).thenReturn(null);
-
-        assertThrows(IllegalArgumentException.class, () -> cadastrarEstudanteUseCase.run(novoEstudanteDTO));
-        verify(estudanteGateway, times(0)).incluir(any(Estudante.class));
+        assertEquals(identificadorInternoEstudante, estudanteCriado.getIdentificadorInterno());
+        assertEquals(nomeEstudante, estudanteCriado.getNome());
+        assertEquals(emailEstudante, estudanteCriado.getEmail());
+        assertEquals(idadeEstudante, estudanteCriado.getIdade());
     }
 
     @DisplayName("Proíbe cadastrar estudante que já existe")
@@ -140,11 +76,11 @@ public class CadastrarEstudateUseCaseTest {
     }
 
     private NovoEstudanteDTO criarNovoEstudanteDTO() {
-        return new NovoEstudanteDTO(nome, email, idade);
+        return new NovoEstudanteDTO(nomeEstudante, emailEstudante, idadeEstudante);
     }
 
     private Estudante criarEstudante() {
-        return Estudante.create(identificadorInterno, nome, email, idade);
+        return Estudante.create(identificadorInternoEstudante, nomeEstudante, emailEstudante, idadeEstudante);
     }
 
 }
